@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ post.title }}</title>
+</head>
+<body>
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.content }}</p>
+    <p><strong>Criado em:</strong> {{ post.created_at }}</p>
+
+    <h2>Comentários</h2>
+    {% for comment in post.comments.all %}
+        <div>
+            <strong>{{ comment.name }}</strong> ({{ comment.created_at }}) <br>
+            {{ comment.content }}
+        </div>
+    {% empty %}
+        <p>Não há comentários ainda.</p>
+    {% endfor %}
+
+    <h3>Deixe um comentário:</h3>
+    <form method="POST">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit">Enviar</button>
+    </form>
+
+    <a href="{% url 'home' %}">Voltar para a página inicial</a>
+</body>
+</html>

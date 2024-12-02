@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Blog Unicep - Página Inicial</title>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'blog/css/styles.css' %}">
+    </head>
+    
+<body>
+    <header>
+        <h1>Bem-vindo ao Blog da Engenharia da Computação da Unicep!</h1>
+    </header>
+
+    <div class="container">
+        <a href="{% url 'create_post' %}">
+            <button>Criar Novo Post</button>
+        </a>
+
+        <h2>Postagens:</h2>
+        <ul class="post-list">
+            {% for post in posts %}
+                <li>
+                    <h2>
+                        <a href="{% url 'post_detail' post.id %}">{{ post.title }}</a>
+                    </h2>
+                    <p>{{ post.content|truncatewords:20 }}</p>
+                    <small>Criado em: {{ post.created_at }}</small>
+                    
+                    <div>
+                        <a href="{% url 'edit_post' post.id %}">
+                            <button class="edit">Editar</button>
+                        </a>
+                        <a href="{% url 'delete_post' post.id %}">
+                            <button class="delete">Excluir</button>
+                        </a>
+                    </div>
+                </li>
+            {% empty %}
+                <p>Não há posts para exibir ainda.</p>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
